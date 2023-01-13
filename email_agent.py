@@ -93,7 +93,7 @@ class MailAgent:
 
     def __init__(self, self_email: str = ''):
         self.my_email, self.my_name, self.provider = get_sender(self_email)
-        print(f'\nThe mail agent has been created for {self.my_name}!')
+        print(f'\nThe mail agent has been created for {self.my_name}: {self.my_email}')
 
     def send_message(self, subject: str = 'Test mail.',
                      message: str = 'My test message',
