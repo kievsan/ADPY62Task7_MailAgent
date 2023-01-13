@@ -93,7 +93,6 @@ class MailAgent:
 
     def __init__(self, self_email: str = ''):
         self.my_email, self.my_name, self.provider = get_sender(self_email)
-        self.header = None
         print(f'\nThe mail agent has been created for {self.my_name}!')
 
     def send_message(self, subject: str = 'Test mail.',
@@ -126,6 +125,7 @@ class MailAgent:
         smtp_server.quit()
 
     def receive_message(self):
+        header = None
         print('Connecting to', self.provider['imap_host'])
         mail = imaplib.IMAP4_SSL(host=self.provider['imap_host'])  # , port=self.provider['imap_port'])
 
@@ -143,7 +143,7 @@ class MailAgent:
         pprint(resp)
 
         mail.select("inbox".upper())
-        criterion = '(HEADER Subject "%s")' % self.header if self.header else 'ALL'
+        criterion = '(HEADER Subject "%s")' % header if header else 'ALL'
         result, data = mail.uid('search', None, criterion)
         assert data[0], 'There are no letters with current header'
         latest_email_uid = data[0].split()[-1]
